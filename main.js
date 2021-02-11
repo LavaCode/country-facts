@@ -6,8 +6,8 @@ console.log(searchButton); //
 
 async function getCountryInfo() {
     const country = "België";
-    const url = "https://restcountries.eu/#api-endpoints-language"
-    console.log(`Get country here`); //
+    const url = `https://restcountries.eu/rest/v2/name/${country}?fullText=true`;
+    console.log(`Get country here ${country}`); //
 }
 
 searchButton.addEventListener("click", getCountryInfo);
