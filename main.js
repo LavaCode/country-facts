@@ -2,13 +2,13 @@
 const searchButton = document.getElementById('searchButton');
 searchButton.addEventListener("click", getCountryInfo);
 
-const flagData = document.getElementById('flagData');
-const countryName = document.getElementById('countryName');
-const subregion = document.getElementById('subregion');
-const population = document.getElementById('population');
-const city = document.getElementById('city');
-const currency = document.getElementById('currency');
-const language = document.getElementById('languages')
+// const flagData = document.getElementById('flagData');
+// const countryName = document.getElementById('countryName');
+// const subregion = document.getElementById('subregion');
+// const population = document.getElementById('population');
+// const city = document.getElementById('city');
+// const currency = document.getElementById('currency');
+// const language = document.getElementById('languages')
 
 //API functionality - get data
 async function getCountryInfo() {
@@ -33,6 +33,8 @@ async function getCountryInfo() {
 
             //test area
             // flagData.setAttribute("src", item.flag);
+            // flagData.setAttribute("width=50px;")
+            // flagData.setAttribute("height=50px;")
             // document.body.append(flagData);
         }
     } catch (err) {
@@ -42,10 +44,10 @@ async function getCountryInfo() {
 }
 
 //Function -- return all info 
-function returnAllData(flag, country, subregion, population, city, currency, language) {
+// function returnAllData(flag, country, subregion, population, city, currency, language) {
 
 
-}
+// }
 
 //Function -- getCurrencies, count type of currencies
 function getCurrencies(currencies) {
