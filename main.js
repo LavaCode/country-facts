@@ -15,12 +15,8 @@ async function getCountryInfo() {
 
     try {
         for (const item of response.data) {
-            console.log(`${item.name} is situated in ${item.subregion}. It has a population of ${item.population} people.`);
-            if (item.capital === "") {
-                console.log(`There is no capital city`);
-            } else {
-                console.log(`The capital is ${item.capital}`);
-            }
+            console.log(`${item.name} ${helloSubregion(item)}. It has a population of ${item.population} people.`);
+            console.log(helloCapital(item))
             console.log(getCurrencies(currencyData)); //import currencies
             console.log(getLanguages(languageData)); //import languages
         }
@@ -63,4 +59,24 @@ function getLanguages(languages) {
         }
     }
     return languageString;
+}
+
+//Function -- is there a capital? 
+function helloCapital(item) {
+    const capital = item.capital;
+    if (capital === "") {
+        return `There is no capital city`;
+    } else {
+        return `The capital is ${capital}`;
+    }
+}
+
+//Function -- is there a subregion? 
+function helloSubregion(item) {
+    const subregion = item.subregion;
+    if (subregion === "") {
+        return `is the country you will get info from`;
+    } else {
+        return `is situated in ${subregion}`;
+    }
 }
