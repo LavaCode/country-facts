@@ -1,9 +1,14 @@
 //Code starts here
-const searchButton = document.getElementById('searchButton');
-searchButton.addEventListener("click", getCountryInfo);
+//Function -- read data from text field
+function getInputData() {
+    const inputData = document.getElementById("userInput").value;
+
+    getCountryInfo(inputData);
+    document.getElementById("userInput").value = "";
+}
 
 // const flagData = document.getElementById('flagData');
-// const countryName = document.getElementById('countryName');
+const countryName = document.getElementById('countryName');
 // const subregion = document.getElementById('subregion');
 // const population = document.getElementById('population');
 // const city = document.getElementById('city');
@@ -11,8 +16,8 @@ searchButton.addEventListener("click", getCountryInfo);
 // const language = document.getElementById('languages')
 
 //API functionality - get data
-async function getCountryInfo() {
-    const country = "antarctica"; //get input from search 
+async function getCountryInfo(countryValue) {
+    const country = countryValue; //get input from search 
     const url = `https://restcountries.eu/rest/v2/name/${country}?fullText=true`;
     const response = await axios.get(url);
 
@@ -29,7 +34,6 @@ async function getCountryInfo() {
             console.log(item.flag);
 
             //visible returns
-
 
             //test area
             // flagData.setAttribute("src", item.flag);
