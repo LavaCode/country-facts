@@ -1,5 +1,7 @@
 //Code starts here
 //Function -- read data from text field
+const textField = document.getElementById("userInput");
+
 function getInputData() {
     const inputData = document.getElementById("userInput").value;
 
@@ -7,13 +9,12 @@ function getInputData() {
     document.getElementById("userInput").value = "";
 }
 
-// const flagData = document.getElementById('flagData');
-const countryName = document.getElementById('countryName');
-// const subregion = document.getElementById('subregion');
-// const population = document.getElementById('population');
-// const city = document.getElementById('city');
-// const currency = document.getElementById('currency');
-// const language = document.getElementById('languages')
+//parse data if Enter is pressed
+textField.addEventListener('keyup', function(event) {
+    if (event.keyCode === 13) {
+        document.getElementById("searchButton").click();
+    }
+});
 
 //API functionality - get data
 async function getCountryInfo(countryValue) {
@@ -28,30 +29,39 @@ async function getCountryInfo(countryValue) {
     try {
         for (const item of response.data) {
             //debug code -- backstage only 
-            console.log(`${item.name} ${helloSubregion(item)}. It has a population of ${checkPopulation(item)} million people`);
+            console.log(`${item.name} ${helloSubregion(item)}. It has a population of ${checkPopulation(item)}`);
             console.log(getCurrencies(currencyData)); //import currencies
             console.log(getLanguages(languageData)); //import languages
-            console.log(item.flag);
+            console.log(item.flag); //get flag
 
             //visible returns
+            returnAllData(item.flag, item.name, item, item, item.capital, currencyData, languageData)
 
             //test area
-            // flagData.setAttribute("src", item.flag);
-            // flagData.setAttribute("width=50px;")
-            // flagData.setAttribute("height=50px;")
-            // document.body.append(flagData);
+            console.log(`TEST: this is the subregion ${item.subregion} and this is the population ${item.population}`)
         }
     } catch (err) {
         // Handle Error Here
+        somethingWentWrong(err);
         console.error(err);
     }
 }
 
 //Function -- return all info 
-// function returnAllData(flag, country, subregion, population, city, currency, language) {
+function returnAllData(flag, country, subregion, population, city, currencyData, language) {
+    //flag
+    const flagData = document.getElementById('flagData');
+    flagData.setAttribute("src", flag);
 
+    //name
+    document.getElementById('countryName').innerHTML = country;
 
-// }
+    //descriptive text
+    stringDescriptive = `${country} ${helloSubregion(subregion)}. It has a population of ${checkPopulation(population)}.<br>${getCurrencies(currencyData)}`
+
+    document.getElementById('about').innerHTML = stringDescriptive;
+
+}
 
 //Function -- getCurrencies, count type of currencies
 function getCurrencies(currencies) {
@@ -118,4 +128,9 @@ function checkPopulation(people) {
     } else {
         return `${(population/1000).toFixed(3)} people`;
     }
+}
+
+//Function -- feedback errors
+function somethingWentWrong(error) {
+    alert(`Wooowwaaaa something went wrong! Please try again! ${error}`);
 }
