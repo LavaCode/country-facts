@@ -1,12 +1,21 @@
 //Code starts here
+generateInspiration();
+
+//Enable or disable debug mode
+const debugMode = false;
+
 //Function -- read data from text field
 const textField = document.getElementById("userInput");
 
+//Function get input data
 function getInputData() {
     const inputData = document.getElementById("userInput").value;
-
-    getCountryInfo(inputData);
-    document.getElementById("userInput").value = "";
+    if (inputData === "") {
+        somethingWentWrong("noData")
+    } else {
+        getCountryInfo(inputData);
+        document.getElementById("userInput").value = "";
+    }
 }
 
 //parse data if Enter is pressed
@@ -18,31 +27,36 @@ textField.addEventListener('keyup', function(event) {
 
 //API functionality - get data
 async function getCountryInfo(countryValue) {
-    const country = countryValue; //get input from search 
-    const url = `https://restcountries.eu/rest/v2/name/${country}?fullText=true`;
-    const response = await axios.get(url);
-
-    const countryData = response.data[0]; //give country data
-    const currencyData = countryData.currencies; // give country currency data
-    const languageData = countryData.languages;
-
     try {
+        const country = countryValue; //get input from search 
+        const url = `https://restcountries.eu/rest/v2/name/${country}?fullText=true`;
+        const response = await axios.get(url);
+
+        const countryData = response.data[0]; //give country data
+        const currencyData = countryData.currencies; //give country currency data
+        const languageData = countryData.languages; //give country languages
+
+        eraseMessages(); //clear warnings or home-screen messages;
+
         for (const item of response.data) {
-            //debug code -- backstage only 
-            console.log(`${item.name} ${helloSubregion(item)}. It has a population of ${checkPopulation(item)}`);
-            console.log(getCurrencies(currencyData)); //import currencies
-            console.log(getLanguages(languageData)); //import languages
-            console.log(item.flag); //get flag
-
             //visible returns
-            returnAllData(item.flag, item.name, item, item, item.capital, currencyData, languageData)
+            returnAllData(item.flag, item.name, item, item, item, currencyData, languageData)
 
-            //test area
-            console.log(`TEST: this is the subregion ${item.subregion} and this is the population ${item.population}`)
+            //debug code -- backstage only 
+            if (debugMode) {
+                console.log(`All the info!`)
+                console.log(countryData)
+                console.log(`${item.name} ${helloSubregion(item)}. It has a population of ${checkPopulation(item)}`);
+                console.log(`${helloCapital(item)}`)
+                console.log(getCurrencies(currencyData)); //import currencies
+                console.log(getLanguages(languageData)); //import languages
+                console.log(item.flag); //get flag
+                console.log(`\nTEST: this is the subregion ${item.subregion} and this is the population ${item.population}\n`)
+            }
         }
     } catch (err) {
         // Handle Error Here
-        somethingWentWrong(err);
+        somethingWentWrong(err)
         console.error(err);
     }
 }
@@ -57,8 +71,9 @@ function returnAllData(flag, country, subregion, population, city, currencyData,
     document.getElementById('countryName').innerHTML = country;
 
     //descriptive text
-    stringDescriptive = `${country} ${helloSubregion(subregion)}. It has a population of ${checkPopulation(population)}.<br>${getCurrencies(currencyData)}`
-
+    stringDescriptive = `${country} ${helloSubregion(subregion)}. It has a population of ${checkPopulation(population)}.
+    <br><br>${helloCapital(city)} and ${getCurrencies(currencyData)}.
+    <br><br>${getLanguages(language)}.`;
     document.getElementById('about').innerHTML = stringDescriptive;
 
 }
@@ -70,7 +85,7 @@ function getCurrencies(currencies) {
     for (let index = 0; index < currencies.length; index++) {
         const currency = currencies[index].name;
         if (index === 0) {
-            currencyString += `You can pay with ${currency}s`;
+            currencyString += `you can pay with ${currency}s`;
         } else if (index === (currencies.length - 1)) {
             currencyString += ` and ${currency}s`;
         } else {
@@ -130,7 +145,37 @@ function checkPopulation(people) {
     }
 }
 
+//Function -- return random country
+async function generateInspiration() {
+    const url = `https://restcountries.eu/rest/v2/all`;
+    const response = await axios.get(url);
+    const data = response.data
+
+    let countryA = Math.floor(Math.random() * data.length);
+    let countryB = Math.floor(Math.random() * data.length);
+
+    countryA = data[countryA].name;
+    countryB = data[countryB].name;
+
+    document.getElementById('inspiration').innerHTML = `Do you need some inspiration? Try <strong>${countryA}</strong> and <strong>${countryB}</strong>!`
+
+    if (debugMode) {
+        console.log(countryA)
+        console.log(countryB)
+    }
+}
+
 //Function -- feedback errors
 function somethingWentWrong(error) {
-    alert(`Wooowwaaaa something went wrong! Please try again! ${error}`);
+    if (error === "noData") {
+        document.getElementById('alertMessage').innerHTML = 'You did not entered any data to search for. Please try again!';
+    } else {
+        document.getElementById('alertMessage').innerHTML = "Is that in space? Please try searching for a valid country!";
+    }
+}
+
+function eraseMessages() {
+    //clear data from home
+    document.getElementById('informativeText').innerHTML = "";
+    document.getElementById('alertMessage').innerHTML = "";
 }
