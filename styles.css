@@ -66,16 +66,9 @@ hr {
     color: darkred;
     font-size: 12px;
     font-weight: bold;
-    margin: 2px;
+    margin: 5px;
 }
 
 #funfact {
     font-weight: bold;
-}
-
-#reloadPage {
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
 }

@@ -139,9 +139,9 @@ function helloSubregion(item) {
 function checkPopulation(people) {
     const population = people.population;
     if (population > 1000000) {
-        return `${(population/1000000).toFixed(2)} million people`;
+        return `${(population / 1000000).toFixed(2)} million people`;
     } else {
-        return `${(population/1000).toFixed(3)} people`;
+        return `${(population / 1000).toFixed(3)} people`;
     }
 }
 
@@ -157,7 +157,7 @@ async function generateInspiration() {
     countryA = data[countryA].name;
     countryB = data[countryB].name;
 
-    document.getElementById('inspiration').innerHTML = `Do you need some inspiration? Try <strong>${countryA}</strong> and <strong>${countryB}</strong>!`
+    document.getElementById('inspiration').innerHTML = `Do you need some inspiration? Try <strong>${countryA}</strong> and <strong>${countryB}</strong>!`;
 
     if (debugMode) {
         console.log(countryA)
@@ -169,8 +169,10 @@ async function generateInspiration() {
 function somethingWentWrong(error) {
     if (error === "noData") {
         document.getElementById('alertMessage').innerHTML = 'You did not entered any data to search for. Please try again!';
+        alert(`Not on my watch! You have to give data before you can search!`)
     } else {
-        document.getElementById('alertMessage').innerHTML = "Is that in space? Please try searching for a valid country!";
+        document.getElementById('alertMessage').innerHTML = "Is that in space? Please try again searching for a valid country!";
+        alert(`Wooowwaaaa where's that? Space?`)
     }
 }
 
